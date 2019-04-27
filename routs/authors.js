@@ -3,14 +3,20 @@ const router = express.Router()
 
 // all authors rout
 router.get('/',(req, res)=> {
-    res.render('index.ejs')
+    res.render('authors/index')
 })
 
-
-// new authors rout
-
+// displaying new authors rout
 router.get('/new',(req, res)=> {
-    res.render('authors.ejs')
+    res.render('authors/new')
 })
+
+//Creating new authors rout
+router.post('/',(req, res)=> {
+    res.send('create')
+})
+
+
+
 
 module.exports = router

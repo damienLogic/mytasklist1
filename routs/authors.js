@@ -2,37 +2,35 @@ const express = require('express')
 const router = express.Router()
 const Author = require('../models/author')
 
-// all authors rout <%#   
-router.get('/', (req, res) => {
-    res.render('authors/index')
-})
-
-// displaying new authors rout
+//display all authors in database          
+router.get('/', async (req, res) => {
+    try {
+ const authors = await Author.find({})
+ res.render('authors/index', {authors: authors})
+    }
+    catch (error){
+        res.redirect('/')   
+    } })                     
+// this rout will bring up the view to create new author 
 router.get('/new', (req, res) => {
     res.render('authors/new',
         { author: new Author() })
 })
-// create new
+// this rout will create new author in the database
 router.post('/', async (req, res) => {
     const author = new Author({
-        name: req.body.name
-    })
-
+        name: req.body.name    })
     try {
         const newAuthor = await author.save()
         //res.redirect(`authors/${newAuthor.id}`)
         console.log(newAuthor.name)
-        res.redirect(`authors`)
-        
+        res.redirect(`/authors`)
     }
     catch (error) {
         res.render('authors/new', {
             author: author,
-            errorMessage: 'error creating author + /author`'
-        })
-    }
-})
-
+            errorMessage: 'error creating author`'
+        })       }   })
 module.exports = router
 
 
